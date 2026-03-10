@@ -24,7 +24,7 @@ export async function createMedicamento(formData: FormData) {
     ) {
       return fail(400, {
         message: "Já existe um medicamento com este código de barras",
-        data
+        data,
       });
     }
     return fail(500, { message: "Erro ao criar medicamento", data });
@@ -56,7 +56,7 @@ export async function updateMedicamento(id: string, formData: FormData) {
     ) {
       return fail(400, {
         message: "Já existe um medicamento com este código de barras",
-        data
+        data,
       });
     }
     return fail(500, { message: "Erro ao atualizar medicamento", data });
