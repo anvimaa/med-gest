@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-anvima}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Wyckoff20}
+      POSTGRES_DB: ${POSTGRES_DB:-med_gest}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-anvima} -d ${POSTGRES_DB:-med_gest}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-anvima}:${POSTGRES_PASSWORD:-Wyckoff20}@db:5432/${POSTGRES_DB:-med_gest}?schema=public"
+      ORIGIN: ${ORIGIN:-http://localhost:3000}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-c904de62-d90e-4959-be30-99e2d38a9139}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

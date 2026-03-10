@@ -4,6 +4,9 @@ import { sveltekitCookies } from "better-auth/svelte-kit";
 import { env } from "$env/dynamic/private";
 import { getRequestEvent } from "$app/server";
 import { prisma } from "$lib/server/prisma";
+import { ORIGIN } from "$env/static/private";
+
+const origin = import.meta.env.DEV ? "http://localhost:5173" : ORIGIN;
 
 export const auth = betterAuth({
   baseURL: env.ORIGIN,
@@ -11,4 +14,5 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   emailAndPassword: { enabled: true },
   plugins: [sveltekitCookies(getRequestEvent)], // make sure this is the last plugin in the array
+  trustedOrigins: [origin],
 });
