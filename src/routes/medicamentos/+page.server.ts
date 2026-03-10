@@ -1,4 +1,5 @@
 import { prisma } from "$lib/server/prisma";
+import { fail } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { deleteMedicamento } from "$lib/server/medicamentos";
 import type { Actions } from "./$types";
@@ -33,7 +34,12 @@ export const actions: Actions = {
     delete: async ({ request }) => {
         const formData = await request.formData();
         const id = formData.get("id")?.toString();
-        if (!id) return { success: false };
-        return await deleteMedicamento(id);
+        if (!id) return fail(400, { success: false, message: "ID não fornecido" });
+        
+        const result = await deleteMedicamento(id);
+        if (!result.success) {
+            return fail(400, result);
+        }
+        return result;
     }
 };

@@ -1,27 +1,39 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
   import type { ActionData } from "./$types";
   import { toast } from "$lib/utils/toasts.svelte";
 
-  let { form = $bindable() }: { form: ActionData } = $props();
-
+  let { form }: { form: ActionData } = $props();
+  let dismissedErrors = $state<Set<string>>(new Set());
   let loading = $state(false);
+
+  // Computed errors that exclude dismissed ones
+  let displayErrors = $derived.by(() => {
+    if (!form?.errors) return {};
+    const filtered: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(form.errors)) {
+      if (!dismissedErrors.has(key)) {
+        filtered[key] = value as string[];
+      }
+    }
+    return filtered;
+  });
 
   $effect(() => {
     if (form?.message) {
       toast.error(form.message);
     } else if (form?.errors) {
       toast.error("Existem erros no formulário.");
+      // Reset dismissed errors when a new form result arrives
+      dismissedErrors.clear();
     }
   });
 
   function clearError(field: string) {
-    if (form?.errors && (form.errors as any)[field]) {
-      delete (form.errors as any)[field];
-    }
+    dismissedErrors.add(field);
   }
 </script>
-
 
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="mb-8 flex items-center space-x-4">
@@ -59,14 +71,12 @@
       use:enhance={() => {
         loading = true;
         return async ({ result, update }) => {
-          try {
-            if (result.type === "redirect") {
-              toast.success("Medicamento criado com sucesso!");
-            }
-            await update();
-          } finally {
-            loading = false;
+          loading = false;
+          if (result.type === "success") {
+            toast.success("Medicamento criado com sucesso!");
+            await goto("/medicamentos");
           }
+          await update();
         };
       }}
       class="p-8 space-y-8"
@@ -86,14 +96,13 @@
             value={form?.data?.nome ?? ""}
             oninput={() => clearError("nome")}
             placeholder="Ex: Paracetamol 500mg"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors?.nome
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.nome
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.nome}
+          {#if displayErrors.nome}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.nome[0]}
+              {displayErrors.nome[0]}
             </p>
           {/if}
         </div>
@@ -109,17 +118,16 @@
             name="descricao"
             rows="3"
             placeholder="Informações adicionais sobre o medicamento..."
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.descricao
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.descricao
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
             oninput={() => clearError("descricao")}
             >{form?.data?.descricao ?? ""}</textarea
           >
 
-          {#if form?.errors?.descricao}
+          {#if displayErrors.descricao}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.descricao[0]}
+              {displayErrors.descricao[0]}
             </p>
           {/if}
         </div>
@@ -137,15 +145,13 @@
             value={form?.data?.principioAtivo ?? ""}
             oninput={() => clearError("principioAtivo")}
             placeholder="Ex: Paracetamol"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.principioAtivo
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.principioAtivo
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.principioAtivo}
+          {#if displayErrors.principioAtivo}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.principioAtivo[0]}
+              {displayErrors.principioAtivo[0]}
             </p>
           {/if}
         </div>
@@ -163,15 +169,13 @@
             value={form?.data?.formaFarmaceutica ?? ""}
             oninput={() => clearError("formaFarmaceutica")}
             placeholder="Ex: Comprimido, Xarope"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.formaFarmaceutica
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.formaFarmaceutica
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.formaFarmaceutica}
+          {#if displayErrors.formaFarmaceutica}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.formaFarmaceutica[0]}
+              {displayErrors.formaFarmaceutica[0]}
             </p>
           {/if}
         </div>
@@ -189,15 +193,13 @@
             value={form?.data?.concentracao ?? ""}
             oninput={() => clearError("concentracao")}
             placeholder="Ex: 500mg, 10mg/ml"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.concentracao
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.concentracao
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.concentracao}
+          {#if displayErrors.concentracao}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.concentracao[0]}
+              {displayErrors.concentracao[0]}
             </p>
           {/if}
         </div>
@@ -215,15 +217,13 @@
             value={form?.data?.codigoBarras ?? ""}
             oninput={() => clearError("codigoBarras")}
             placeholder="Ex: 5601234567890"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.codigoBarras
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.codigoBarras
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.codigoBarras}
+          {#if displayErrors.codigoBarras}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.codigoBarras[0]}
+              {displayErrors.codigoBarras[0]}
             </p>
           {/if}
         </div>
@@ -241,15 +241,13 @@
             value={form?.data?.fabricante ?? ""}
             oninput={() => clearError("fabricante")}
             placeholder="Ex: Pfizer, Bial"
-
-            class="block w-full px-4 py-3 rounded-xl border {form?.errors
-              ?.fabricante
+            class="block w-full px-4 py-3 rounded-xl border {displayErrors.fabricante
               ? 'border-red-500'
               : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
-          {#if form?.errors?.fabricante}
+          {#if displayErrors.fabricante}
             <p class="mt-1 text-xs text-red-600 font-medium">
-              {form.errors.fabricante[0]}
+              {displayErrors.fabricante[0]}
             </p>
           {/if}
         </div>

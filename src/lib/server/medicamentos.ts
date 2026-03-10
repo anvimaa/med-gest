@@ -1,20 +1,27 @@
 import { prisma } from "$lib/server/prisma";
-import { fail, redirect } from "@sveltejs/kit";
 import { medicamentoSchema } from "$lib/schemas/medicamento";
 
-export async function createMedicamento(formData: FormData) {
+export interface ServiceResult {
+  success: boolean;
+  message?: string;
+  errors?: Record<string, string[]>;
+  data?: any;
+}
+
+export async function createMedicamento(formData: FormData): Promise<ServiceResult> {
   const data = Object.fromEntries(formData);
   const result = medicamentoSchema.safeParse(data);
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors;
-    return fail(400, { errors, data });
+    return { success: false, errors: errors as Record<string, string[]>, data };
   }
 
   try {
     await prisma.medicamento.create({
       data: result.data,
     });
+    return { success: true };
   } catch (err: any) {
     if (
       typeof err === "object" &&
@@ -22,24 +29,23 @@ export async function createMedicamento(formData: FormData) {
       "code" in err &&
       err.code === "P2002"
     ) {
-      return fail(400, {
+      return {
+        success: false,
         message: "Já existe um medicamento com este código de barras",
         data,
-      });
+      };
     }
-    return fail(500, { message: "Erro ao criar medicamento", data });
+    return { success: false, message: "Erro ao criar medicamento", data };
   }
-
-  throw redirect(303, "/medicamentos");
 }
 
-export async function updateMedicamento(id: string, formData: FormData) {
+export async function updateMedicamento(id: string, formData: FormData): Promise<ServiceResult> {
   const data = Object.fromEntries(formData);
   const result = medicamentoSchema.safeParse(data);
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors;
-    return fail(400, { errors, data });
+    return { success: false, errors: errors as Record<string, string[]>, data };
   }
 
   try {
@@ -47,6 +53,7 @@ export async function updateMedicamento(id: string, formData: FormData) {
       where: { id },
       data: result.data,
     });
+    return { success: true };
   } catch (err: any) {
     if (
       typeof err === "object" &&
@@ -54,37 +61,34 @@ export async function updateMedicamento(id: string, formData: FormData) {
       "code" in err &&
       err.code === "P2002"
     ) {
-      return fail(400, {
+      return {
+        success: false,
         message: "Já existe um medicamento com este código de barras",
         data,
-      });
+      };
     }
-    return fail(500, { message: "Erro ao atualizar medicamento", data });
+    return { success: false, message: "Erro ao atualizar medicamento", data };
   }
-
-  throw redirect(303, "/medicamentos");
 }
 
-export async function deleteMedicamento(id: string) {
+export async function deleteMedicamento(id: string): Promise<ServiceResult> {
   try {
-    // Check if there are batches linked to this medication
     const batchCount = await prisma.lote.count({
       where: { medicamentoId: id },
     });
 
     if (batchCount > 0) {
-      return fail(400, {
-        message:
-          "Não é possível apagar um medicamento que possui lotes associados",
-      });
+      return {
+        success: false,
+        message: "Não é possível apagar um medicamento que possui lotes associados",
+      };
     }
 
     await prisma.medicamento.delete({
       where: { id },
     });
+    return { success: true };
   } catch (_err) {
-    return fail(500, { message: "Erro ao apagar medicamento" });
+    return { success: false, message: "Erro ao apagar medicamento" };
   }
-
-  return { success: true };
 }
