@@ -10,20 +10,25 @@
 
   // Computed errors that exclude dismissed ones
   let displayErrors = $derived.by(() => {
-    if (!form?.errors) return {};
+    const errors =
+      form && "errors" in form
+        ? (form.errors as Record<string, string[]>)
+        : null;
+    if (!errors) return {};
+
     const filtered: Record<string, string[]> = {};
-    for (const [key, value] of Object.entries(form.errors)) {
+    for (const [key, value] of Object.entries(errors)) {
       if (!dismissedErrors.has(key)) {
-        filtered[key] = value as string[];
+        filtered[key] = value;
       }
     }
     return filtered;
   });
 
   $effect(() => {
-    if (form?.message) {
+    if (form && "message" in form && form.message) {
       toast.error(form.message);
-    } else if (form?.errors) {
+    } else if (form && "errors" in form && form.errors) {
       toast.error("Existem erros no formulário.");
       // Reset dismissed errors when a new form result arrives
       dismissedErrors.clear();
@@ -71,12 +76,15 @@
       use:enhance={() => {
         loading = true;
         return async ({ result, update }) => {
-          loading = false;
-          if (result.type === "success") {
-            toast.success("Medicamento atualizado com sucesso!");
-            await goto("/medicamentos");
+          try {
+            if (result.type === "success") {
+              toast.success("Medicamento atualizado com sucesso!");
+              await goto("/medicamentos");
+            }
+            await update({ reset: false }); // Don't reset in edit mode
+          } finally {
+            loading = false;
           }
-          await update();
         };
       }}
       class="p-8 space-y-8"
