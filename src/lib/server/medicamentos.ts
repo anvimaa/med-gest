@@ -8,13 +8,14 @@ export interface ServiceResult {
   data?: any;
 }
 
-export async function createMedicamento(formData: FormData): Promise<ServiceResult> {
+export async function createMedicamento(
+  formData: FormData,
+): Promise<ServiceResult> {
   const data = Object.fromEntries(formData);
   const result = medicamentoSchema.safeParse(data);
 
   if (!result.success) {
-    const errors = result.error.flatten().fieldErrors;
-    return { success: false, errors: errors as Record<string, string[]>, data };
+    return { success: false, message: result.error.issues[0].message, data };
   }
 
   try {
@@ -39,13 +40,15 @@ export async function createMedicamento(formData: FormData): Promise<ServiceResu
   }
 }
 
-export async function updateMedicamento(id: string, formData: FormData): Promise<ServiceResult> {
+export async function updateMedicamento(
+  id: string,
+  formData: FormData,
+): Promise<ServiceResult> {
   const data = Object.fromEntries(formData);
   const result = medicamentoSchema.safeParse(data);
 
   if (!result.success) {
-    const errors = result.error.flatten().fieldErrors;
-    return { success: false, errors: errors as Record<string, string[]>, data };
+    return { success: false, message: result.error.issues[0].message, data };
   }
 
   try {
@@ -80,7 +83,8 @@ export async function deleteMedicamento(id: string): Promise<ServiceResult> {
     if (batchCount > 0) {
       return {
         success: false,
-        message: "Não é possível apagar um medicamento que possui lotes associados",
+        message:
+          "Não é possível apagar um medicamento que possui lotes associados",
       };
     }
 
