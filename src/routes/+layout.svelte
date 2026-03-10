@@ -4,8 +4,10 @@
   import { page } from "$app/state";
   import { enhance } from "$app/forms";
   import SidebarItem from "$lib/components/SidebarItem.svelte";
+  import Toasts from "$lib/components/Toasts.svelte";
 
   let { children } = $props();
+
 
   let user = $derived(page.data.user);
   let isAuthPage = $derived(
@@ -24,7 +26,10 @@
   <title>Gestão de Medicamentos</title>
 </svelte:head>
 
+<Toasts />
+
 <div class="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900">
+
   {#if !isAuthPage && user}
     <!-- desktop sidebar -->
     <aside class="hidden md:flex w-72 flex-col bg-white border-r border-slate-200 sticky top-0 h-screen z-50">
