@@ -27,15 +27,27 @@ export async function getLoteById(id: string) {
   });
 }
 
-export async function createLote(data: LoteInput): Promise<ServiceResult> {
+export async function createLote(data: LoteInput, userId: string): Promise<ServiceResult> {
   try {
-    const lote = await prisma.lote.create({
-      data,
+    return await prisma.$transaction(async (tx) => {
+      const lote = await tx.lote.create({
+        data,
+      });
+
+      await tx.movimentacao.create({
+        data: {
+          tipoMovimentacao: "ENTRADA",
+          quantidade: data.quantidadeInicial,
+          loteId: lote.id,
+          userId: userId,
+        }
+      });
+
+      return { success: true, data: lote };
     });
-    return { success: true, data: lote };
   } catch (err: any) {
     console.error(err);
-    return { success: false, message: "Erro ao criar lote" };
+    return { success: false, message: "Erro ao criar lote e registar movimento" };
   }
 }
 

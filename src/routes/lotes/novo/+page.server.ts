@@ -8,15 +8,15 @@ export const load: PageServerLoad = async ({ locals }) => {
   if (!locals.user) return { medicamentos: [], fornecedores: [] };
 
   const [medicamentos, fornecedores] = await Promise.all([
-    prisma.medicamento.findMany({ orderBy: { nome: 'asc' } }),
-    prisma.fornecedor.findMany({ orderBy: { nome: 'asc' } })
+    prisma.medicamento.findMany({ orderBy: { nome: "asc" } }),
+    prisma.fornecedor.findMany({ orderBy: { nome: "asc" } }),
   ]);
 
   return { medicamentos, fornecedores };
 };
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  default: async ({ request, locals }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
@@ -32,7 +32,7 @@ export const actions: Actions = {
       return fail(400, { errors, data });
     }
 
-    const serviceResult = await createLote(result.data);
+    const serviceResult = await createLote(result.data, locals.user!.id);
     if (!serviceResult.success) {
       return fail(400, serviceResult);
     }

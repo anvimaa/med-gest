@@ -43,10 +43,20 @@ export async function createEliminacao(data: EliminacaoInput): Promise<ServiceRe
         data,
       });
 
+      // Also record as a movement for robust history
+      await tx.movimentacao.create({
+        data: {
+          tipoMovimentacao: "SAIDA",
+          quantidade: data.quantidade,
+          loteId: data.loteId,
+          userId: data.userId,
+        }
+      });
+
       return { success: true, data: eliminacao };
     });
   } catch (err: any) {
     console.error(err);
-    return { success: false, message: "Erro ao registar eliminação" };
+    return { success: false, message: "Erro ao registar eliminação e movimento" };
   }
 }

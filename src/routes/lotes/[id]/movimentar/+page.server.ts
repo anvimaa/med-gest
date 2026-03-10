@@ -1,0 +1,43 @@
+import { getLoteById } from "$lib/server/lotes";
+import { createMovimentacao } from "$lib/server/movimentacoes";
+import { error, fail } from "@sveltejs/kit";
+import { movimentacaoSchema } from "$lib/schemas/movimentacao";
+import type { PageServerLoad, Actions } from "./$types";
+
+export const load: PageServerLoad = async ({ params }) => {
+  const lote = await getLoteById(params.id);
+  if (!lote) throw error(404, "Lote não encontrado");
+  return { lote };
+};
+
+export const actions: Actions = {
+  default: async ({ params, request, locals }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    
+    // Add hidden fields
+    const payload = {
+      ...data,
+      loteId: params.id,
+      userId: locals.user!.id
+    };
+
+    const result = movimentacaoSchema.safeParse(payload);
+    if (!result.success) {
+      const errors: Record<string, string[]> = {};
+      for (const issue of result.error.issues) {
+        const path = issue.path[0] as string;
+        if (!errors[path]) errors[path] = [];
+        errors[path].push(issue.message);
+      }
+      return fail(400, { errors, data });
+    }
+
+    const serviceResult = await createMovimentacao(result.data);
+    if (!serviceResult.success) {
+      return fail(400, serviceResult);
+    }
+
+    return serviceResult;
+  },
+};
