@@ -76,14 +76,14 @@
       use:enhance={() => {
         loading = true;
         return async ({ result, update }) => {
-          try {
-            if (result.type === "success") {
-              toast.success("Medicamento criado com sucesso!");
-              await goto("/medicamentos");
-            }
-            // Always update to catch errors, but don't reset if it's an error to keep user input
-            await update({ reset: result.type === 'success' });
-          } finally {
+          console.log("Enviou...");
+          if (result.type === "success") {
+            toast.success("Medicamento criado com sucesso!");
+            await goto("/medicamentos");
+          } else {
+            //@ts-ignore
+            const error = result.data.error as string;
+            toast.error(error);
             loading = false;
           }
         };

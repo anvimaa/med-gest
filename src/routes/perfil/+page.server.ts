@@ -17,13 +17,7 @@ export const actions: Actions = {
 
     const result = perfilSchema.safeParse(data);
     if (!result.success) {
-      const errors: Record<string, string[]> = {};
-      for (const issue of result.error.issues) {
-        const path = issue.path[0] as string;
-        if (!errors[path]) errors[path] = [];
-        errors[path].push(issue.message);
-      }
-      return fail(400, { errors, data });
+      return fail(400, { error: result.error.issues[0].message, data });
     }
 
     try {
@@ -31,10 +25,13 @@ export const actions: Actions = {
         where: { id: locals.user.id },
         data: result.data,
       });
+
       return { success: true };
     } catch (err: any) {
       if (err.code === "P2002") {
-        return fail(400, { message: "Este email já está em uso por outro utilizador" });
+        return fail(400, {
+          message: "Este email já está em uso por outro utilizador",
+        });
       }
       return fail(500, { message: "Erro ao atualizar perfil" });
     }
