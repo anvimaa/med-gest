@@ -1,14 +1,11 @@
 import { getMovimentacoes } from "$lib/server/movimentacoes";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-    if (!locals.user) {
-        return { movimentacoes: [] };
-    }
+  const movimentacoes = await getMovimentacoes();
 
-    const movimentacoes = await getMovimentacoes();
-
-    return {
-        movimentacoes
-    };
+  return {
+    movimentacoes,
+  };
 };

@@ -6,9 +6,9 @@
   import SidebarItem from "$lib/components/SidebarItem.svelte";
   import Toasts from "$lib/components/Toasts.svelte";
 
-  let { children } = $props();
+  let { children, data } = $props();
 
-  let user = $derived(page.data.user);
+  let user = $derived(data.user);
   let isAuthPage = $derived(
     page.url.pathname === "/login" || page.url.pathname === "/signup",
   );
@@ -98,32 +98,76 @@
 
         <SidebarItem href="/fornecedores" label="Fornecedores">
           {#snippet icon()}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
             </svg>
           {/snippet}
         </SidebarItem>
 
         <SidebarItem href="/lotes" label="Stock & Lotes">
           {#snippet icon()}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              />
             </svg>
           {/snippet}
         </SidebarItem>
 
         <SidebarItem href="/movimentacoes" label="Movimentações">
           {#snippet icon()}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+              />
             </svg>
           {/snippet}
         </SidebarItem>
 
         <SidebarItem href="/eliminacoes" label="Eliminações">
           {#snippet icon()}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
             </svg>
           {/snippet}
         </SidebarItem>
@@ -163,7 +207,11 @@
           <div
             class="shrink-0 w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200"
           >
-            {user.name.charAt(0).toUpperCase()}
+            {#if user.image}
+              <img src={user.image} alt="" />
+            {:else}
+              {user.name.charAt(0).toUpperCase()}
+            {/if}
           </div>
           <div class="ml-3 min-w-0 flex-1">
             <p class="text-sm font-bold text-slate-900 truncate">{user.name}</p>

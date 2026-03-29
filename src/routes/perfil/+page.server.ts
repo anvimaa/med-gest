@@ -2,6 +2,10 @@ import { prisma } from "$lib/server/prisma";
 import { fail } from "@sveltejs/kit";
 import { perfilSchema } from "$lib/schemas/perfil";
 import type { PageServerLoad, Actions } from "./$types";
+import { auth } from "$lib/server/auth";
+import { APIError } from "better-auth/api";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (!locals.user) return { user: null };
@@ -30,10 +34,83 @@ export const actions: Actions = {
     } catch (err: any) {
       if (err.code === "P2002") {
         return fail(400, {
-          message: "Este email já está em uso por outro utilizador",
+          error: "Este email já está em uso por outro utilizador",
         });
       }
-      return fail(500, { message: "Erro ao atualizar perfil" });
+      return fail(500, { error: "Erro ao atualizar perfil" });
+    }
+  },
+
+  updateImage: async ({ request, locals }) => {
+    if (!locals.user) return fail(401, { error: "Não autorizado" });
+
+    const formData = await request.formData();
+    const image = formData.get("image") as File;
+
+    if (!image || image.size === 0) {
+      return fail(400, { error: "Nenhuma imagem selecionada" });
+    }
+
+    if (!image.type.startsWith("image/")) {
+      return fail(400, { error: "O ficheiro deve ser uma imagem" });
+    }
+
+    try {
+      const buffer = Buffer.from(await image.arrayBuffer());
+      const fileName = `${locals.user.id}-${Date.now()}.${image.name.split(".").pop()}`;
+      const uploadDir = join(process.cwd(), "static", "uploads", "avatars");
+
+      // Ensure directory exists
+      mkdirSync(uploadDir, { recursive: true });
+
+      const filePath = join(uploadDir, fileName);
+      writeFileSync(filePath, buffer);
+
+      const imageUrl = `/uploads/avatars/${fileName}`;
+
+      await prisma.user.update({
+        where: { id: locals.user.id },
+        data: { image: imageUrl },
+      });
+
+      return { success: true, imageUrl };
+    } catch (err) {
+      console.error(err);
+      return fail(500, { error: "Erro ao guardar imagem" });
+    }
+  },
+
+  changePassword: async ({ request, locals }) => {
+    if (!locals.user) return fail(401, { error: "Não autorizado" });
+
+    const formData = await request.formData();
+    const currentPassword = formData.get("currentPassword")?.toString();
+    const newPassword = formData.get("newPassword")?.toString();
+    const confirmPassword = formData.get("confirmPassword")?.toString();
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return fail(400, { error: "Todos os campos de senha são obrigatórios" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return fail(400, { error: "As novas senhas não coincidem" });
+    }
+
+    try {
+      await auth.api.changePassword({
+        body: {
+          currentPassword,
+          newPassword,
+          revokeOtherSessions: true,
+        },
+      });
+
+      return { success: true, passwordChanged: true };
+    } catch (error) {
+      if (error instanceof APIError) {
+        return fail(400, { error: error.message || "Falha ao mudar senha" });
+      }
+      return fail(500, { error: "Erro inesperado ao mudar senha" });
     }
   },
 };

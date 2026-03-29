@@ -7,6 +7,7 @@
   let { data, form }: { data: PageData; form: ActionData } = $props();
   let loading = $state(false);
   let dismissedErrors = $state<Set<string>>(new Set());
+  let tipoMovimentacao = $derived(form?.data?.tipoMovimentacao ?? "");
 
   let displayErrors = $derived.by(() => {
     const errors =
@@ -95,14 +96,14 @@
       method="POST"
       use:enhance={() => {
         loading = true;
-        return async ({ result, update }) => {
-          try {
-            if (result.type === "success") {
-              toast.success("Movimentação registada com sucesso!");
-              await goto("/lotes");
-            }
-            await update({ reset: result.type === "success" });
-          } finally {
+        return async ({ result }) => {
+          if (result.type === "success") {
+            toast.success("Movimentação registada com sucesso!");
+            await goto("/lotes");
+          } else {
+            //@ts-ignore
+            const error = result.data.error as string;
+            toast.error(error);
             loading = false;
           }
         };
@@ -115,34 +116,34 @@
         >
         <div class="grid grid-cols-2 gap-4">
           <label
-            class="relative flex items-center justify-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all {form
-              ?.data?.tipoMovimentacao === 'ENTRADA'
-              ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+            class="relative flex items-center justify-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all {tipoMovimentacao ===
+            'ENTRADA'
+              ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-200'
               : 'border-slate-200'}"
           >
             <input
               type="radio"
               name="tipoMovimentacao"
               value="ENTRADA"
+              bind:group={tipoMovimentacao}
               required
               class="sr-only"
-              checked={form?.data?.tipoMovimentacao === "ENTRADA"}
             />
             <span class="text-sm font-bold text-slate-900">Entrada (+)</span>
           </label>
           <label
-            class="relative flex items-center justify-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all {form
-              ?.data?.tipoMovimentacao === 'SAIDA'
-              ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+            class="relative flex items-center justify-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all {tipoMovimentacao ===
+            'SAIDA'
+              ? 'border-rose-500 bg-rose-50 ring-2 ring-rose-200'
               : 'border-slate-200'}"
           >
             <input
               type="radio"
               name="tipoMovimentacao"
               value="SAIDA"
+              bind:group={tipoMovimentacao}
               required
               class="sr-only"
-              checked={form?.data?.tipoMovimentacao === "SAIDA"}
             />
             <span class="text-sm font-bold text-slate-900">Saída (-)</span>
           </label>

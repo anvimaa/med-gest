@@ -14,23 +14,17 @@ export const actions: Actions = {
   default: async ({ params, request, locals }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    
+
     // Add hidden fields
     const payload = {
       ...data,
       loteId: params.id,
-      userId: locals.user!.id
+      userId: locals.user!.id,
     };
 
     const result = movimentacaoSchema.safeParse(payload);
     if (!result.success) {
-      const errors: Record<string, string[]> = {};
-      for (const issue of result.error.issues) {
-        const path = issue.path[0] as string;
-        if (!errors[path]) errors[path] = [];
-        errors[path].push(issue.message);
-      }
-      return fail(400, { errors, data });
+      return fail(400, { error: result.error.issues[0].message, data });
     }
 
     const serviceResult = await createMovimentacao(result.data);

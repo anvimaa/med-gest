@@ -95,14 +95,14 @@
       method="POST"
       use:enhance={() => {
         loading = true;
-        return async ({ result, update }) => {
-          try {
-            if (result.type === "success") {
-              toast.success("Eliminação registada com sucesso!");
-              await goto("/lotes");
-            }
-            await update({ reset: result.type === "success" });
-          } finally {
+        return async ({ result }) => {
+          if (result.type === "success") {
+            toast.success("Eliminação registada com sucesso!");
+            await goto("/lotes");
+          } else {
+            //@ts-ignore
+            const error = result.data.error as string;
+            toast.error(error);
             loading = false;
           }
         };
