@@ -4,45 +4,45 @@ import { deleteLote } from "$lib/server/lotes";
 import type { PageServerLoad, Actions } from "./$types";
 
 export const load: PageServerLoad = async ({ url, locals }) => {
-    if (!locals.user) {
-        return { lotes: [] };
-    }
+  if (!locals.user) {
+    return { lotes: [] };
+  }
 
-    const search = url.searchParams.get("search") || "";
+  const search = url.searchParams.get("search") || "";
 
-    const lotes = await prisma.lote.findMany({
-        where: {
-            OR: [
-                { numeroLote: { contains: search, mode: 'insensitive' } },
-                { medicamento: { nome: { contains: search, mode: 'insensitive' } } },
-                { fornecedor: { nome: { contains: search, mode: 'insensitive' } } }
-            ]
-        },
-        include: {
-            medicamento: true,
-            fornecedor: true
-        },
-        orderBy: {
-            dataValidade: 'asc'
-        }
-    });
+  const lotes = await prisma.lote.findMany({
+    where: {
+      OR: [
+        { numeroLote: { contains: search } },
+        { medicamento: { nome: { contains: search } } },
+        { fornecedor: { nome: { contains: search } } },
+      ],
+    },
+    include: {
+      medicamento: true,
+      fornecedor: true,
+    },
+    orderBy: {
+      dataValidade: "asc",
+    },
+  });
 
-    return {
-        lotes,
-        search
-    };
+  return {
+    lotes,
+    search,
+  };
 };
 
 export const actions: Actions = {
-    delete: async ({ request }) => {
-        const formData = await request.formData();
-        const id = formData.get("id")?.toString();
-        if (!id) return fail(400, { success: false, message: "ID não fornecido" });
-        
-        const result = await deleteLote(id);
-        if (!result.success) {
-            return fail(400, result);
-        }
-        return result;
+  delete: async ({ request }) => {
+    const formData = await request.formData();
+    const id = formData.get("id")?.toString();
+    if (!id) return fail(400, { success: false, message: "ID não fornecido" });
+
+    const result = await deleteLote(id);
+    if (!result.success) {
+      return fail(400, result);
     }
+    return result;
+  },
 };

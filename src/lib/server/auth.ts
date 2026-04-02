@@ -11,7 +11,7 @@ const origin = import.meta.env.DEV ? "http://localhost:5173" : ORIGIN;
 export const auth = betterAuth({
   baseURL: env.ORIGIN,
   secret: env.BETTER_AUTH_SECRET,
-  database: prismaAdapter(prisma, { provider: "postgresql" }),
+  database: prismaAdapter(prisma, { provider: "sqlite" }),
   emailAndPassword: { enabled: true },
   plugins: [sveltekitCookies(getRequestEvent)], // make sure this is the last plugin in the array
   trustedOrigins: [origin],

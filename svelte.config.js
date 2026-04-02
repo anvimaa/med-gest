@@ -7,6 +7,7 @@ const config = {
     alias: {
       "@db/cliente": "./src/generated/prisma/client",
     },
+    csrf: { trustedOrigins: ['*'] }
   },
 };
 
