@@ -24,7 +24,7 @@ export const actions: Actions = {
 
     const result = movimentacaoSchema.safeParse(payload);
     if (!result.success) {
-      return fail(400, { error: result.error.issues[0].message, data });
+      return fail(400, { message: result.error.issues[0].message, data });
     }
 
     const serviceResult = await createMovimentacao(result.data);

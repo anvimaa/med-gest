@@ -27,6 +27,7 @@
         Gira o catálogo de medicamentos disponíveis no sistema.
       </p>
     </div>
+    {#if data.user?.role === 'admin'}
     <div class="mt-4 md:mt-0">
       <a
         href="/medicamentos/novo"
@@ -49,6 +50,7 @@
         Novo Medicamento
       </a>
     </div>
+    {/if}
   </div>
 
   <div
@@ -156,6 +158,7 @@
               <td
                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
               >
+                {#if data.user?.role === 'admin'}
                 <div class="flex justify-end space-x-2">
                   <a
                     href="/medicamentos/{medicamento.id}/editar"
@@ -220,6 +223,9 @@
                     </button>
                   </form>
                 </div>
+                {:else}
+                  <span class="text-slate-400 italic text-xs">Visualização apenas</span>
+                {/if}
               </td>
             </tr>
           {:else}

@@ -12,35 +12,41 @@ export async function getMovimentacoes() {
     include: {
       lote: {
         include: {
-          medicamento: true
-        }
+          medicamento: true,
+        },
       },
       user: true,
     },
-    orderBy: { dataMovimentacao: 'desc' }
+    orderBy: { dataMovimentacao: "desc" },
   });
 }
 
-export async function createMovimentacao(data: MovimentacaoInput): Promise<ServiceResult> {
+export async function createMovimentacao(
+  data: MovimentacaoInput,
+): Promise<ServiceResult> {
   try {
     return await prisma.$transaction(async (tx) => {
       const lote = await tx.lote.findUnique({
-        where: { id: data.loteId }
+        where: { id: data.loteId },
       });
 
       if (!lote) return { success: false, message: "Lote não encontrado" };
 
-      if (data.tipoMovimentacao === "SAIDA" && lote.quantidadeAtual < data.quantidade) {
+      if (
+        data.tipoMovimentacao === "SAIDA" &&
+        lote.quantidadeAtual < data.quantidade
+      ) {
         return { success: false, message: "Quantidade insuficiente em stock" };
       }
 
-      const novaQuantidade = data.tipoMovimentacao === "ENTRADA" 
-        ? lote.quantidadeAtual + data.quantidade 
-        : lote.quantidadeAtual - data.quantidade;
+      const novaQuantidade =
+        data.tipoMovimentacao === "ENTRADA"
+          ? lote.quantidadeAtual + data.quantidade
+          : lote.quantidadeAtual - data.quantidade;
 
       await tx.lote.update({
         where: { id: data.loteId },
-        data: { quantidadeAtual: novaQuantidade }
+        data: { quantidadeAtual: novaQuantidade },
       });
 
       const movimentacao = await tx.movimentacao.create({

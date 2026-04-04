@@ -5,6 +5,7 @@ import { env } from "$env/dynamic/private";
 import { getRequestEvent } from "$app/server";
 import { prisma } from "$lib/server/prisma";
 import { ORIGIN } from "$env/static/private";
+import { admin } from "better-auth/plugins";
 
 const origin = import.meta.env.DEV ? "http://localhost:5173" : ORIGIN;
 
@@ -13,6 +14,15 @@ export const auth = betterAuth({
   secret: env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, { provider: "sqlite" }),
   emailAndPassword: { enabled: true },
-  plugins: [sveltekitCookies(getRequestEvent)], // make sure this is the last plugin in the array
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        default: "user",
+        required: false,
+      },
+    },
+  },
+  plugins: [sveltekitCookies(getRequestEvent), admin()], // make sure this is the last plugin in the array
   trustedOrigins: [origin],
 });

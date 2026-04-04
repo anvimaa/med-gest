@@ -4,6 +4,16 @@ import type { User, Session } from "better-auth";
 // for information about these interfaces
 declare global {
   namespace App {
+    interface User {
+      id: string;
+      email: string;
+      name: string;
+      role?: string | null;
+      image?: string | null;
+      emailVerified: boolean;
+      createdAt: Date;
+      updatedAt: Date;
+    }
     interface Locals {
       user?: User;
       session?: Session;

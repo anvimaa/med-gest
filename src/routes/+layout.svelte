@@ -96,6 +96,7 @@
           {/snippet}
         </SidebarItem>
 
+        {#if user.role === 'admin'}
         <SidebarItem href="/fornecedores" label="Fornecedores">
           {#snippet icon()}
             <svg
@@ -114,6 +115,7 @@
             </svg>
           {/snippet}
         </SidebarItem>
+        {/if}
 
         <SidebarItem href="/lotes" label="Stock & Lotes">
           {#snippet icon()}
@@ -153,6 +155,7 @@
           {/snippet}
         </SidebarItem>
 
+        {#if user.role === 'admin'}
         <SidebarItem href="/eliminacoes" label="Eliminações">
           {#snippet icon()}
             <svg
@@ -171,6 +174,28 @@
             </svg>
           {/snippet}
         </SidebarItem>
+        {/if}
+
+        {#if user.role === 'admin'}
+        <SidebarItem href="/usuarios" label="Gestão de Usuários">
+          {#snippet icon()}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
+          {/snippet}
+        </SidebarItem>
+        {/if}
 
         <div class="pt-6 pb-2 px-4">
           <span
@@ -323,12 +348,14 @@
             class="flex items-center px-4 py-3 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
             >Medicamentos</a
           >
+          {#if user.role === 'admin'}
           <a
             href="/fornecedores"
             onclick={toggleMobileMenu}
             class="flex items-center px-4 py-3 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
             >Fornecedores</a
           >
+          {/if}
           <a
             href="/lotes"
             onclick={toggleMobileMenu}
@@ -341,12 +368,20 @@
             class="flex items-center px-4 py-3 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
             >Movimentações</a
           >
+          {#if user.role === 'admin'}
           <a
             href="/eliminacoes"
             onclick={toggleMobileMenu}
             class="flex items-center px-4 py-3 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
             >Eliminações</a
           >
+          <a
+            href="/usuarios"
+            onclick={toggleMobileMenu}
+            class="flex items-center px-4 py-3 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
+            >Gestão de Usuários</a
+          >
+          {/if}
           <form method="POST" action="/logout" use:enhance>
             <button
               type="submit"

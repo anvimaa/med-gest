@@ -101,9 +101,8 @@
             toast.success("Movimentação registada com sucesso!");
             await goto("/lotes");
           } else {
-            //@ts-ignore
-            const error = result.data.error as string;
-            toast.error(error);
+            //const error = result.data.message as string;
+            toast.error(result.data?.message as string);
             loading = false;
           }
         };
