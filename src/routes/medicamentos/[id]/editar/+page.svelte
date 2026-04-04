@@ -73,6 +73,7 @@
   >
     <form
       method="POST"
+      enctype="multipart/form-data"
       use:enhance={() => {
         loading = true;
         return async ({ result, update }) => {
@@ -141,6 +142,27 @@
               {displayErrors.descricao[0]}
             </p>
           {/if}
+        </div>
+
+        <div class="col-span-1 md:col-span-2">
+          <label
+            for="imagem"
+            class="block text-sm font-semibold text-slate-700 mb-1"
+            >Foto do Medicamento (Opcional)</label
+          >
+          {#if data.medicamento.imagemUrl}
+            <div class="mb-4">
+              <img src={data.medicamento.imagemUrl} alt="Imagem atual" class="h-32 w-32 object-cover rounded-xl border border-slate-200 shadow-sm" />
+              <p class="text-xs text-slate-500 mt-1">Carregar nova imagem irá substituir a atual.</p>
+            </div>
+          {/if}
+          <input
+            type="file"
+            id="imagem"
+            name="imagem"
+            accept="image/*"
+            class="block w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          />
         </div>
 
         <div>

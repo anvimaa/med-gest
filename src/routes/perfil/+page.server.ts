@@ -4,8 +4,11 @@ import { perfilSchema } from "$lib/schemas/perfil";
 import type { PageServerLoad, Actions } from "./$types";
 import { auth } from "$lib/server/auth";
 import { APIError } from "better-auth/api";
-import { writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import fs, { writeFileSync, mkdirSync } from "node:fs";
+import path, { join, resolve } from "node:path";
+import process from "process";
+import crypto from "crypto";
+import "dotenv/config";
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (!locals.user) return { user: null };
@@ -57,8 +60,10 @@ export const actions: Actions = {
 
     try {
       const buffer = Buffer.from(await image.arrayBuffer());
-      const fileName = `${locals.user.id}-${Date.now()}.${image.name.split(".").pop()}`;
-      const uploadDir = join(process.cwd(), "static", "uploads", "avatars");
+      const ext = path.extname(image.name) || ".jpg";
+      const fileName = `${locals.user.id}-${Date.now()}${ext}`;
+      const uploadDirRaw = process.env.UPLOAD_DIR || "../medgest-uploads";
+      const uploadDir = resolve(process.cwd(), uploadDirRaw);
 
       // Ensure directory exists
       mkdirSync(uploadDir, { recursive: true });
@@ -66,7 +71,7 @@ export const actions: Actions = {
       const filePath = join(uploadDir, fileName);
       writeFileSync(filePath, buffer);
 
-      const imageUrl = `/uploads/avatars/${fileName}`;
+      const imageUrl = `/api/uploads/${fileName}`;
 
       await prisma.user.update({
         where: { id: locals.user.id },
@@ -107,6 +112,7 @@ export const actions: Actions = {
 
       return { success: true, passwordChanged: true };
     } catch (error) {
+      console.error(error);
       if (error instanceof APIError) {
         return fail(400, { error: error.message || "Falha ao mudar senha" });
       }

@@ -92,6 +92,7 @@ model Medicamento {
   concentracao      String?
   fabricante        String?
   codigoBarras      String?  @unique
+  imagemUrl         String?
   dataCadastro      DateTime @default(now())
 
   lotes Lote[]
