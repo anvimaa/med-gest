@@ -9,7 +9,9 @@
 
 <div class="h-screen w-screen overflow-hidden bg-slate-50 flex text-[14px]">
   <!-- Left Side: Brand presentation -->
-  <div class="hidden lg:flex lg:w-5/12 xl:w-1/2 relative bg-blue-600 overflow-hidden">
+  <div
+    class="hidden lg:flex lg:w-5/12 xl:w-1/2 relative bg-blue-600 overflow-hidden"
+  >
     <!-- Abstract pattern background -->
     <div
       class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"
@@ -38,7 +40,9 @@
             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
           </svg>
         </div>
-        <h1 class="text-3xl xl:text-4xl font-black mb-3 tracking-tight leading-tight">
+        <h1
+          class="text-3xl xl:text-4xl font-black mb-3 tracking-tight leading-tight"
+        >
           MedGest
         </h1>
         <p
@@ -65,7 +69,8 @@
           </div>
         </div>
         <p class="text-sm font-medium text-blue-100 leading-tight">
-          Junte-se a <span class="text-white font-bold">500+</span> profissionais na gestão eficiente.
+          Junte-se a <span class="text-white font-bold">500+</span> profissionais
+          na gestão eficiente.
         </p>
       </div>
     </div>
@@ -83,7 +88,9 @@
       class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-indigo-200/50 blur-3xl opacity-60 pointer-events-none"
     ></div>
 
-    <div class="w-full max-w-sm mx-auto relative z-10 flex flex-col justify-center h-full max-h-[90vh]">
+    <div
+      class="w-full max-w-sm mx-auto relative z-10 flex flex-col justify-center h-full max-h-[90vh]"
+    >
       <div class="mb-6 text-center lg:text-left shrink-0">
         <div
           class="lg:hidden bg-blue-600 p-2.5 rounded-2xl w-fit mx-auto shadow-lg shadow-blue-200 mb-4 border border-blue-500"
@@ -101,7 +108,9 @@
             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
           </svg>
         </div>
-        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+        <h2
+          class="text-2xl font-extrabold text-slate-900 tracking-tight mb-1.5"
+        >
           Bem-vindo de volta
         </h2>
         <p class="text-sm text-slate-500 font-medium">
@@ -110,7 +119,7 @@
       </div>
 
       <div
-        class="bg-white/80 backdrop-blur-xl p-5 sm:p-6 xl:p-8 rounded-2xl sm:rounded-[1.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 shrink-0"
+        class="bg-white/80 backdrop-blur-xl p-5 sm:p-6 xl:p-8 rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 shrink-0"
       >
         <form
           class="space-y-4"
@@ -316,7 +325,9 @@
         </form>
       </div>
 
-      <div class="mt-4 text-center text-[12px] text-slate-500 font-medium shrink-0">
+      <div
+        class="mt-4 text-center text-[12px] text-slate-500 font-medium shrink-0"
+      >
         Problemas a aceder? <a
           href="mailto:suporte@medgest.com"
           class="text-blue-600 hover:text-blue-700 hover:underline transition-colors"
