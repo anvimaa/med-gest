@@ -5,6 +5,7 @@
   import NavIcons from "./NavIcons.svelte";
   import { MAIN_NAV_ITEMS, SETTINGS_NAV_ITEMS } from "$lib/config/navigation";
   import { fade, fly } from "svelte/transition";
+  import Logo from "./logo.svelte";
 
   let { user, open = $bindable(false) } = $props();
 
@@ -23,7 +24,7 @@
   <div class="flex flex-col h-full bg-white border-r border-slate-200">
     <div class="p-6 flex items-center space-x-3">
       <div class="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-200">
-        <NavIcons name="medicamentos" class="h-6 w-6 text-white" />
+        <Logo />
       </div>
       <span class="text-2xl font-black tracking-tight text-slate-800"
         >SIGMED</span

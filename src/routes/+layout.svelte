@@ -5,6 +5,7 @@
   import Sidebar from "$lib/components/Sidebar.svelte";
   import NavIcons from "$lib/components/NavIcons.svelte";
   import Toasts from "$lib/components/Toasts.svelte";
+  import Logo from "$lib/components/logo.svelte";
 
   let { children, data } = $props();
 
@@ -40,7 +41,7 @@
       <div class="flex items-center justify-between h-16 px-4">
         <div class="flex items-center space-x-2">
           <div class="p-1.5 bg-blue-600 rounded-lg shadow-sm shadow-blue-100">
-            <NavIcons name="medicamentos" class="h-5 w-5 text-white" />
+            <Logo />
           </div>
           <span class="text-xl font-bold tracking-tight text-slate-800"
             >SIGMED</span

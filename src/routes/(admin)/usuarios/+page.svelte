@@ -132,7 +132,15 @@
                   <div
                     class="h-10 w-10 shrink-0 rounded-full bg-linear-to-br from-blue-100 to-indigo-100 border border-blue-200/50 flex items-center justify-center text-blue-700 font-bold shadow-inner"
                   >
-                    {user.name.charAt(0).toUpperCase()}
+                    {#if user.image}
+                      <img
+                        class="h-10 w-10 shrink-0 rounded-full bg-linear-to-br from-blue-100 to-indigo-100 border border-blue-200/50 flex items-center justify-center text-blue-700 font-bold shadow-inner"
+                        src={user.image}
+                        alt={user.name}
+                      />
+                    {:else}
+                      {user.name.charAt(0).toUpperCase()}
+                    {/if}
                   </div>
                   <div>
                     <div class="font-semibold text-slate-900">{user.name}</div>

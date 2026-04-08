@@ -28,6 +28,12 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
     icon: "usuarios",
     roles: ["admin"],
   },
+  {
+    href: "/relatorios",
+    label: "Relatórios",
+    icon: "relatorio",
+    roles: ["admin"],
+  },
 ];
 
 export const SETTINGS_NAV_ITEMS: NavItem[] = [

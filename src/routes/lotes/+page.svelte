@@ -130,7 +130,16 @@
         <tbody class="bg-white divide-y divide-slate-200">
           {#each data.lotes as lote}
             <tr class="hover:bg-slate-50 transition-colors">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td
+                class="px-6 py-4 whitespace-nowrap flex items-center space-x-2"
+              >
+                {#if lote.medicamento.imagemUrl}
+                  <img
+                    src={lote.medicamento.imagemUrl}
+                    alt={lote.medicamento.nome}
+                    class="size-18 rounded-lg object-cover"
+                  />
+                {/if}
                 <div class="text-sm font-semibold text-slate-900">
                   {lote.medicamento.nome}
                 </div>
