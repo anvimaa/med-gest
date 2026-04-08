@@ -7,8 +7,9 @@ import { APIError } from "better-auth/api";
 export const load: PageServerLoad = async (event) => {
   if (event.locals.user) {
     return redirect(302, "/dashboard");
+  } else {
+    return redirect(302, "/login");
   }
-  return {};
 };
 
 export const actions: Actions = {
@@ -19,7 +20,7 @@ export const actions: Actions = {
     const name = formData.get("name")?.toString() ?? "";
 
     if (!email || !password || !name) {
-        return fail(400, { message: "Preencha todos os campos" });
+      return fail(400, { message: "Preencha todos os campos" });
     }
 
     try {

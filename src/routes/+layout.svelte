@@ -22,7 +22,7 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} />
-  <title>Gestão de Medicamentos</title>
+  <title>SIGMED - Sistema Integrado de Gestão de Medicamentos</title>
 </svelte:head>
 
 <Toasts />
@@ -43,7 +43,7 @@
             <NavIcons name="medicamentos" class="h-5 w-5 text-white" />
           </div>
           <span class="text-xl font-bold tracking-tight text-slate-800"
-            >MedGest</span
+            >SIGMED</span
           >
         </div>
 
@@ -68,7 +68,7 @@
         class="bg-white/50 backdrop-blur-sm border-t border-slate-200 py-6 px-4 mt-auto"
       >
         <div class="max-w-7xl mx-auto text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} MedGest.
+          &copy; {new Date().getFullYear()} SIGMED.
         </div>
       </footer>
     {/if}

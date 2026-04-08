@@ -26,7 +26,7 @@
         <NavIcons name="medicamentos" class="h-6 w-6 text-white" />
       </div>
       <span class="text-2xl font-black tracking-tight text-slate-800"
-        >MedGest</span
+        >SIGMED</span
       >
     </div>
 

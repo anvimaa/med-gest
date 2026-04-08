@@ -254,7 +254,7 @@
         <div>
           <h2 class="text-xl font-bold text-slate-900">Novo Utilizador</h2>
           <p class="text-sm text-slate-500 mt-1">
-            Acesso seguro à plataforma MedGest.
+            Acesso seguro à plataforma SIGMED.
           </p>
         </div>
         <!-- svelte-ignore a11y_consider_explicit_label -->

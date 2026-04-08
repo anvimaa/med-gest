@@ -43,12 +43,12 @@
         <h1
           class="text-3xl xl:text-4xl font-black mb-3 tracking-tight leading-tight"
         >
-          MedGest
+          SIGMED
         </h1>
         <p
           class="text-blue-100 text-base max-w-sm font-medium leading-relaxed opacity-90"
         >
-          Gestão inteligente para controlo de stock e movimentações.
+          Sistema integrado de Gestão de Medicamentos
         </p>
       </div>
 
@@ -69,8 +69,9 @@
           </div>
         </div>
         <p class="text-sm font-medium text-blue-100 leading-tight">
-          Junte-se a <span class="text-white font-bold">500+</span> profissionais
-          na gestão eficiente.
+          Tornamos a gestão de <span class="text-white font-bold"
+            >Medicamentos</span
+          > mais eficiente.
         </p>
       </div>
     </div>
@@ -328,10 +329,9 @@
       <div
         class="mt-4 text-center text-[12px] text-slate-500 font-medium shrink-0"
       >
-        Problemas a aceder? <a
-          href="mailto:suporte@medgest.com"
-          class="text-blue-600 hover:text-blue-700 hover:underline transition-colors"
-          >Contactar Suporte</a
+        Problemas a aceder? <br /><span
+          class="text-blue-600 hover:text-blue-700 transition-colors"
+          >Entre em contacto com o Administrador do Sistema</span
         >
       </div>
     </div>
