@@ -34,14 +34,14 @@ export async function createLote(data: LoteInput, userId: string): Promise<Servi
         data,
       });
 
-      await tx.movimentacao.create({
-        data: {
-          tipoMovimentacao: "ENTRADA",
-          quantidade: data.quantidadeInicial,
-          loteId: lote.id,
-          userId: userId,
-        }
-      });
+      // await tx.movimentacao.create({
+      //   data: {
+      //     tipoMovimentacao: "ENTRADA",
+      //     quantidade: data.quantidadeInicial,
+      //     loteId: lote.id,
+      //     userId: userId,
+      //   }
+      // });
 
       return { success: true, data: lote };
     });

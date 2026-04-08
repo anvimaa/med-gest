@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
       fornecedor: true,
     },
     orderBy: {
-      dataValidade: "asc",
+      dataEntrada: "desc",
     },
   });
 

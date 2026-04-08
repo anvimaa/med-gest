@@ -61,7 +61,7 @@
     { id: "geral", label: "Resumo Geral", icon: LayoutDashboard },
     { id: "estoque", label: "Estoque", icon: Package },
     { id: "movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
-    { id: "eliminacoes", label: "Eliminações", icon: Trash2 },
+    { id: "eliminacoes", label: "Abates", icon: Trash2 },
     { id: "alertas", label: "Alertas", icon: BookAlert },
     { id: "fornecedores", label: "Fornecedores", icon: Building2 },
   ] as const;
@@ -89,7 +89,7 @@
     },
     {
       id: "eliminacoes",
-      label: "Eliminações",
+      label: "Abates",
       icon: Trash2,
       desc: "Registros de descarte",
     },
@@ -154,7 +154,7 @@
     try {
       await new Promise((resolve) => setTimeout(resolve, 100));
       gerarPDF(data as any, tipo as any, {
-        nomeEmpresa: "Sistema de Gestão de Estoque",
+        nomeEmpresa: "SIGMED - Sistema Integrado de Gestão de Medicamentos",
         abrirNovaAba,
       });
     } catch (error) {
@@ -702,7 +702,7 @@
             </div>
           </div>
 
-          <!-- Eliminações -->
+          <!-- Abates -->
           <div
             class="rounded-xl border border-red-200 bg-linear-to-br from-red-50 to-rose-50 p-6"
           >
@@ -711,7 +711,7 @@
                 <Trash2 class="h-6 w-6 text-red-600" />
               </div>
               <div>
-                <p class="text-sm font-medium text-red-800">Eliminações</p>
+                <p class="text-sm font-medium text-red-800">Abates</p>
                 <p class="text-2xl font-bold text-red-900">
                   -{data.resumo.totalEliminacoes.toLocaleString("pt-BR")}
                 </p>
@@ -746,7 +746,7 @@
                   <p class="text-sm font-semibold text-red-700">
                     {data.lotesVencidos.length} lote(s) vencido(s)
                   </p>
-                  <p class="text-xs text-gray-500">Necessitam eliminação</p>
+                  <p class="text-xs text-gray-500">Necessitam de abate</p>
                 </div>
               </button>
               <button
@@ -1127,7 +1127,7 @@
       </div>
     {/if}
 
-    <!-- ELIMINAÇÕES -->
+    <!-- Abates -->
     {#if tipoRelatorio === "eliminacoes"}
       <div class="space-y-6 animate-in fade-in duration-300">
         <div
@@ -1135,7 +1135,7 @@
         >
           <div class="flex items-center gap-2">
             <Trash2 class="h-6 w-6 text-red-500" />
-            <h2 class="text-xl font-bold text-gray-900">Eliminações</h2>
+            <h2 class="text-xl font-bold text-gray-900">Abates</h2>
           </div>
           <span
             class="inline-flex items-center gap-1.5 rounded-full bg-red-100
@@ -1232,7 +1232,7 @@
             >
               <Check class="h-12 w-12 text-green-300" />
               <p class="mt-2 text-lg font-medium">
-                Nenhuma eliminação registrada
+                Nenhum abate registrada
               </p>
               <p class="text-sm text-gray-400">No período selecionado</p>
             </div>
@@ -1502,24 +1502,16 @@
                     <th class="px-6 py-3 text-left font-medium text-gray-500"
                       >Fornecedor</th
                     >
-                    <th class="px-6 py-3 text-center font-medium text-gray-500"
-                      >Inicial</th
-                    >
+                    
                     <th class="px-6 py-3 text-center font-medium text-gray-500"
                       >Atual</th
                     >
-                    <th class="px-6 py-3 text-center font-medium text-gray-500"
-                      >Consumo</th
-                    >
+                    
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                   {#each data.estoqueBaixo as lote}
-                    {@const consumo =
-                      lote.quantidadeInicial - lote.quantidadeAtual}
-                    {@const percentual = Math.round(
-                      (consumo / lote.quantidadeInicial) * 100,
-                    )}
+                    
                     <tr class="transition hover:bg-yellow-50/50">
                       <td class="px-6 py-3.5 font-medium text-gray-900">
                         <span class="flex items-center gap-2">
@@ -1533,32 +1525,13 @@
                       <td class="px-6 py-3.5 text-gray-600">
                         {lote.fornecedor.nome}
                       </td>
-                      <td class="px-6 py-3.5 text-center text-gray-500">
-                        {lote.quantidadeInicial}
-                      </td>
+                     
                       <td
                         class="px-6 py-3.5 text-center font-bold text-orange-600"
                       >
                         {lote.quantidadeAtual}
                       </td>
-                      <td class="px-6 py-3.5">
-                        <div class="flex items-center justify-center gap-3">
-                          <div
-                            class="h-2.5 w-24 overflow-hidden rounded-full bg-gray-200"
-                          >
-                            <div
-                              class="h-full rounded-full bg-linear-to-r from-yellow-400 to-orange-500
-															       transition-all duration-500"
-                              style="width: {percentual}%"
-                            ></div>
-                          </div>
-                          <span
-                            class="text-xs font-semibold text-gray-600 w-10"
-                          >
-                            {percentual}%
-                          </span>
-                        </div>
-                      </td>
+                      
                     </tr>
                   {/each}
                 </tbody>
