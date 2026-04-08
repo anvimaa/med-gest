@@ -98,14 +98,12 @@
 <!-- Mobile Drawer -->
 {#if open}
   <div class="fixed inset-0 z-100 md:hidden">
-    <!-- Backdrop -->
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
+    <button
+      aria-label="d"
       class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
       transition:fade={{ duration: 200 }}
       onclick={close}
-    ></div>
+    ></button>
 
     <!-- Drawer Panel -->
     <div

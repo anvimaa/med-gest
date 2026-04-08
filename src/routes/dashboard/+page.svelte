@@ -242,7 +242,7 @@
           <span class="ml-4 font-medium text-slate-700">Novo Medicamento</span>
         </a>
         <a
-          href="/medicamentos"
+          href="/lotes"
           class="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50 transition-all group"
         >
           <div
@@ -263,7 +263,7 @@
               />
             </svg>
           </div>
-          <span class="ml-4 font-medium text-slate-700">Listar Stock</span>
+          <span class="ml-4 font-medium text-slate-700">Listar Estoque</span>
         </a>
       </div>
     </div>

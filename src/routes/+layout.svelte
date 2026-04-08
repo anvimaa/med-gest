@@ -27,18 +27,24 @@
 
 <Toasts />
 
-<div class="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900 overflow-x-hidden">
+<div
+  class="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900 overflow-x-hidden"
+>
   {#if !isAuthPage && user}
     <Sidebar {user} bind:open={mobileMenuOpen} />
 
     <!-- mobile header -->
-    <header class="md:hidden bg-white border-b border-slate-200 sticky top-0 z-40">
+    <header
+      class="md:hidden bg-white border-b border-slate-200 sticky top-0 z-40"
+    >
       <div class="flex items-center justify-between h-16 px-4">
         <div class="flex items-center space-x-2">
           <div class="p-1.5 bg-blue-600 rounded-lg shadow-sm shadow-blue-100">
             <NavIcons name="medicamentos" class="h-5 w-5 text-white" />
           </div>
-          <span class="text-xl font-bold tracking-tight text-slate-800">MedGest</span>
+          <span class="text-xl font-bold tracking-tight text-slate-800"
+            >MedGest</span
+          >
         </div>
 
         <button
@@ -58,10 +64,11 @@
     </div>
 
     {#if !isAuthPage && user}
-      <footer class="bg-white/50 backdrop-blur-sm border-t border-slate-200 py-6 px-4 mt-auto">
+      <footer
+        class="bg-white/50 backdrop-blur-sm border-t border-slate-200 py-6 px-4 mt-auto"
+      >
         <div class="max-w-7xl mx-auto text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} MedGest - Sistema Inteligente de Gestão.
-          Elaborado com SvelteKit & Prisma.
+          &copy; {new Date().getFullYear()} MedGest.
         </div>
       </footer>
     {/if}
