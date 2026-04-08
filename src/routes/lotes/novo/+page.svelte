@@ -58,7 +58,7 @@
       </svg>
     </a>
     <div>
-      <h1 class="text-2xl font-bold text-slate-900">Entrada de Lote</h1>
+      <h1 class="text-2xl font-bold text-slate-900">Registar Lote</h1>
       <p class="text-slate-500">
         Registe a entrada de um novo lote de medicamento.
       </p>
@@ -221,65 +221,25 @@
             </p>
           {/if}
         </div>
-
-        <div>
-          <label
-            for="quantidadeInicial"
-            class="block text-sm font-semibold text-slate-700 mb-1"
-            >Quantidade Entrou *</label
-          >
-          <input
-            type="number"
-            id="quantidadeInicial"
-            name="quantidadeInicial"
-            required
-            min="1"
-            value={form?.data?.quantidadeInicial ?? ""}
-            oninput={(e) => {
-              clearError("quantidadeInicial");
-              // Auto-fill quantidadeAtual with initial if not set
-              const target = e.target as HTMLInputElement;
-              const currentInput = document.getElementById(
-                "quantidadeAtual",
-              ) as HTMLInputElement;
-              if (!currentInput.value) currentInput.value = target.value;
-            }}
-            class="block w-full px-4 py-3 rounded-xl border {displayErrors.quantidadeInicial
-              ? 'border-red-500'
-              : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-          />
-          {#if displayErrors.quantidadeInicial}
-            <p class="mt-1 text-xs text-red-600 font-medium">
-              {displayErrors.quantidadeInicial[0]}
-            </p>
-          {/if}
-        </div>
-
-        <div>
-          <label
-            for="quantidadeAtual"
-            class="block text-sm font-semibold text-slate-700 mb-1"
-            >Quantidade em Stock *</label
-          >
-          <input
-            type="number"
-            id="quantidadeAtual"
-            name="quantidadeAtual"
-            required
-            min="0"
-            value={form?.data?.quantidadeAtual ?? ""}
-            oninput={() => clearError("quantidadeAtual")}
-            class="block w-full px-4 py-3 rounded-xl border {displayErrors.quantidadeAtual
-              ? 'border-red-500'
-              : 'border-slate-300'} shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
-          />
-          {#if displayErrors.quantidadeAtual}
-            <p class="mt-1 text-xs text-red-600 font-medium">
-              {displayErrors.quantidadeAtual[0]}
-            </p>
-          {/if}
-        </div>
       </div>
+
+      <input
+        type="hidden"
+        id="quantidadeInicial"
+        name="quantidadeInicial"
+        required
+        min="1"
+        value="0"
+      />
+
+      <input
+        type="hidden"
+        id="quantidadeAtual"
+        name="quantidadeAtual"
+        required
+        min="0"
+        value="0"
+      />
 
       <div
         class="pt-4 flex items-center justify-end space-x-4 border-t border-slate-100"

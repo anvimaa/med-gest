@@ -45,9 +45,7 @@
     <div>
       <h1 class="text-2xl font-bold text-slate-900">Editar Lote</h1>
       <p class="text-slate-500">
-        Atualize os dados do lote <strong
-          >{data.lote.numeroLote}</strong
-        >.
+        Atualize os dados do lote <strong>{data.lote.numeroLote}</strong>.
       </p>
     </div>
   </div>
@@ -89,12 +87,15 @@
             {#each data.medicamentos as med}
               <option
                 value={med.id}
-                selected={data.lote.medicamentoId === med.id}
-                >{med.nome}</option
+                selected={data.lote.medicamentoId === med.id}>{med.nome}</option
               >
             {/each}
           </select>
-          <input type="hidden" name="medicamentoId" value={data.lote.medicamentoId} />
+          <input
+            type="hidden"
+            name="medicamentoId"
+            value={data.lote.medicamentoId}
+          />
           <p class="mt-1 text-xs text-slate-400">
             O medicamento não pode ser alterado após o registo do lote.
           </p>
@@ -133,8 +134,8 @@
             {#each data.fornecedores as forn}
               <option
                 value={forn.id}
-                selected={(form?.data?.fornecedorId ?? data.lote.fornecedorId) === forn.id}
-                >{forn.nome}</option
+                selected={(form?.data?.fornecedorId ??
+                  data.lote.fornecedorId) === forn.id}>{forn.nome}</option
               >
             {/each}
           </select>
@@ -151,7 +152,8 @@
             id="dataFabricacao"
             name="dataFabricacao"
             required
-            value={form?.data?.dataFabricacao ?? formatDate(data.lote.dataFabricacao)}
+            value={form?.data?.dataFabricacao ??
+              formatDate(data.lote.dataFabricacao)}
             class="block w-full px-4 py-3 rounded-xl border border-slate-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
         </div>
@@ -167,19 +169,15 @@
             id="dataValidade"
             name="dataValidade"
             required
-            value={form?.data?.dataValidade ?? formatDate(data.lote.dataValidade)}
+            value={form?.data?.dataValidade ??
+              formatDate(data.lote.dataValidade)}
             class="block w-full px-4 py-3 rounded-xl border border-slate-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
           />
         </div>
 
         <div>
-          <label
-            for="quantidadeInicial"
-            class="block text-sm font-semibold text-slate-700 mb-1"
-            >Quantidade Entrou *</label
-          >
           <input
-            type="number"
+            type="hidden"
             id="quantidadeInicial"
             name="quantidadeInicial"
             required
@@ -190,13 +188,8 @@
         </div>
 
         <div>
-          <label
-            for="quantidadeAtual"
-            class="block text-sm font-semibold text-slate-700 mb-1"
-            >Quantidade em Stock *</label
-          >
           <input
-            type="number"
+            type="hidden"
             id="quantidadeAtual"
             name="quantidadeAtual"
             required

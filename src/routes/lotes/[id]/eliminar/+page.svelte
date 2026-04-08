@@ -58,11 +58,11 @@
       </svg>
     </a>
     <div>
-      <h1 class="text-2xl font-bold text-red-600">Eliminar Medicamentos</h1>
+      <h1 class="text-2xl font-bold text-red-600">Abater Medicamentos</h1>
       <p class="text-slate-500">
-        Registe a eliminação de itens do lote <strong
-          >{data.lote.numeroLote}</strong
-        >.
+        Registe o Abate de medicamentos do lote <strong
+          >{data.lote.numeroLote}
+        </strong>.
       </p>
     </div>
   </div>
@@ -79,7 +79,7 @@
       </div>
       <div class="text-right">
         <p class="text-xs font-bold text-red-400 uppercase tracking-wider">
-          Stock Disponível
+          Estoque Disponível
         </p>
         <p class="text-2xl font-black text-red-600">
           {data.lote.quantidadeAtual}
@@ -97,7 +97,7 @@
         loading = true;
         return async ({ result }) => {
           if (result.type === "success") {
-            toast.success("Eliminação registada com sucesso!");
+            toast.success("Abate registada com sucesso!");
             await goto("/lotes");
           } else {
             //@ts-ignore
@@ -113,7 +113,7 @@
         <label
           for="quantidade"
           class="block text-sm font-semibold text-slate-700 mb-1"
-          >Quantidade a Eliminar *</label
+          >Quantidade a Abater *</label
         >
         <input
           type="number"
@@ -140,7 +140,7 @@
         <label
           for="motivo"
           class="block text-sm font-semibold text-slate-700 mb-1"
-          >Motivo da Eliminação *</label
+          >Motivo do Abate *</label
         >
         <textarea
           id="motivo"
@@ -174,7 +174,7 @@
           disabled={loading}
           class="px-8 py-3 bg-red-600 rounded-xl shadow-lg text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50"
         >
-          {#if loading}A guardar...{:else}Confirmar Eliminação{/if}
+          {#if loading}A guardar...{:else}Confirmar Abate{/if}
         </button>
       </div>
     </form>

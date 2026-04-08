@@ -108,6 +108,7 @@ export const actions: Actions = {
           newPassword,
           revokeOtherSessions: true,
         },
+        headers: request.headers,
       });
 
       return { success: true, passwordChanged: true };

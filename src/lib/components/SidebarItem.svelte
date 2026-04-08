@@ -7,11 +7,13 @@
     label,
     active = false,
     icon,
+    onclick,
   }: {
     href: string;
     label: string;
     active?: boolean;
     icon?: Snippet;
+    onclick?: () => void;
   } = $props();
 
   let isActive = $derived(
@@ -22,6 +24,7 @@
 
 <a
   {href}
+  {onclick}
   class="flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group
     {isActive
     ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'

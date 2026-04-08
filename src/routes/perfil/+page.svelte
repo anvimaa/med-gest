@@ -167,11 +167,12 @@
         return async ({ result, update }) => {
           if (result.type === "success") {
             toast.success("Perfil atualizado com sucesso!");
+            invalidateAll();
           } else {
             // @ts-ignore
             toast.error(result.data?.error || "Erro ao atualizar perfil");
           }
-          await update();
+          //await update();
           loadingProfile = false;
         };
       }}
@@ -295,7 +296,7 @@
         action="?/changePassword"
         use:enhance={() => {
           loadingPassword = true;
-          return async ({ result, update }) => {
+          return async ({ result }) => {
             if (result.type === "success") {
               toast.success("Palavra-passe alterada!");
               showPasswordModal = false;
