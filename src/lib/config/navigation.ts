@@ -6,8 +6,8 @@ export interface NavItem {
 }
 
 export const MAIN_NAV_ITEMS: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
-  { href: "/medicamentos", label: "Medicamentos", icon: "medicamentos" },
+  { href: "/dashboard", label: "Inicial", icon: "dashboard" },
+  { href: "/medicamentos", label: "Produtos", icon: "medicamentos" },
   {
     href: "/fornecedores",
     label: "Fornecedores",

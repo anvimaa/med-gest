@@ -22,9 +22,9 @@
     class="flex flex-col md:flex-row md:items-center md:justify-between mb-8"
   >
     <div>
-      <h1 class="text-2xl font-bold text-slate-900">Medicamentos</h1>
+      <h1 class="text-2xl font-bold text-slate-900">Produtos</h1>
       <p class="text-slate-500">
-        Gira o catálogo de medicamentos disponíveis no sistema.
+        Gira o catálogo de Produtos disponíveis no sistema.
       </p>
     </div>
     {#if data.user?.role === "admin"}
@@ -47,7 +47,7 @@
               d="M12 4v16m8-8H4"
             />
           </svg>
-          Novo Medicamento
+          Novo Produto
         </a>
       </div>
     {/if}
@@ -279,7 +279,7 @@
                     />
                   </svg>
                   <p class="text-slate-500 text-lg font-medium">
-                    Nenhum medicamento encontrado.
+                    Nenhum produto encontrado.
                   </p>
                   {#if search}
                     <button

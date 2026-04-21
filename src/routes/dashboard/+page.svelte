@@ -6,7 +6,7 @@
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="mb-8">
-    <h1 class="text-2xl font-bold text-slate-900">Dashboard</h1>
+    <h1 class="text-2xl font-bold text-slate-900">Inicial</h1>
     <p class="text-slate-500">
       Bem-vindo ao sistema de gestão de medicamentos. Aqui está o resumo do seu
       inventário.
@@ -175,9 +175,7 @@
       <div
         class="px-6 py-4 border-b border-slate-200 flex justify-between items-center"
       >
-        <h3 class="text-lg font-semibold text-slate-900">
-          Medicamentos Recentes
-        </h3>
+        <h3 class="text-lg font-semibold text-slate-900">Produtos Recentes</h3>
         <a
           href="/medicamentos"
           class="text-sm font-medium text-blue-600 hover:text-blue-500"
@@ -207,7 +205,7 @@
           </div>
         {:else}
           <div class="px-6 py-12 text-center text-slate-500">
-            Nenhum medicamento cadastrado ainda.
+            Nenhum produto cadastrado ainda.
           </div>
         {/each}
       </div>
@@ -239,7 +237,7 @@
               />
             </svg>
           </div>
-          <span class="ml-4 font-medium text-slate-700">Novo Medicamento</span>
+          <span class="ml-4 font-medium text-slate-700">Novo Produto</span>
         </a>
         <a
           href="/lotes"

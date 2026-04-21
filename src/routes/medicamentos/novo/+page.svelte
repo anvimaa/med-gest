@@ -63,8 +63,8 @@
       </svg>
     </a>
     <div>
-      <h1 class="text-2xl font-bold text-slate-900">Novo Medicamento</h1>
-      <p class="text-slate-500">Registe um novo medicamento no catálogo.</p>
+      <h1 class="text-2xl font-bold text-slate-900">Novo Produto</h1>
+      <p class="text-slate-500">Registe um novo Produto no catálogo.</p>
     </div>
   </div>
 
@@ -96,7 +96,7 @@
           <label
             for="nome"
             class="block text-sm font-semibold text-slate-700 mb-1"
-            >Nome do Medicamento *</label
+            >Nome do Produto *</label
           >
           <input
             type="text"
@@ -146,7 +146,7 @@
           <label
             for="imagem"
             class="block text-sm font-semibold text-slate-700 mb-1"
-            >Foto do Medicamento (Opcional)</label
+            >Foto do Produto (Opcional)</label
           >
           <input
             type="file"
@@ -337,7 +337,7 @@
             </svg>
             A guardar...
           {:else}
-            Guardar Medicamento
+            Guardar Produto
           {/if}
         </button>
       </div>
